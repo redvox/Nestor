@@ -1,6 +1,7 @@
 # Nestor
 Dashboard with Rasberry Pi and ePaper display
 
+# Setup
 ## Find your Raspberry
 Plug in your Raspberry. If you have trouble find the right ip adress, you can use `nmap` to scan your local network.
 
@@ -8,3 +9,18 @@ Plug in your Raspberry. If you have trouble find the right ip adress, you can us
 sudo apt-get install nmap
 sudo nmap -sP 192.168.178.1/24
 ```
+## Connect to your rasbperry
+After you got your ip, its time to connect to your raspberry.
+
+```bash
+ssh pi@<ip-adress>
+```
+
+After the inital connectify is assured, use `ssh-copy-id` to make your raspberry accessible via ssh-key.
+
+```bash
+ssh-copy-id -i ~/.ssh/id_rsa pi@<ip-adress>
+```
+
+This way you do not have to type your password with every access, once your key is unlocked.
+
