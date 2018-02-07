@@ -1,6 +1,10 @@
 # Nestor
 Dashboard with Rasberry Pi and ePaper display
 
+# Hardware
+[Waveshare 7.5 Inch E-Paper Display - Amazon](https://www.amazon.de/gp/product/B075R4QY3L/ref=oh_aui_detailpage_o05_s00?ie=UTF8&psc=1)
+[Waveshare Wiki](https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT?Amazon)
+
 # Setup
 ## Find your Raspberry
 Plug in your Raspberry. If you have trouble find the right ip adress, you can use `nmap` to scan your local network.
