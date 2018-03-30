@@ -7,6 +7,15 @@ Dashboard with Rasberry Pi and ePaper display
 - [Waveshare 7.5 Inch E-Paper Display - Amazon](https://www.amazon.de/gp/product/B075R4QY3L/ref=oh_aui_detailpage_o05_s00?ie=UTF8&psc=1)
 - [Waveshare Wiki](https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT?Amazon)
 
+## e-Paper Driver HAT Settings
+If you using the Driver HAT, like i do. Make sure the switches on the Hat are set correctly.
+
+*Display Config* has to be set accordingly to the display you are using. In case of the 7.5 inch it would be *B*.
+
+The *Interface Config* must be set to *0*.
+
+Waveshare has a [Video](https://www.youtube.com/watch?v=f4yoYbSWctI) explaining the different settings. 
+
 # Setup
 ## Install OS
 Download [Raspbian Stretch Lite](https://www.raspberrypi.org/downloads/raspbian/).
