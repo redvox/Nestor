@@ -43,7 +43,7 @@ def main():
     # For simplicity, the arguments are explicit numerical coordinates
     image = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 1)  # 1: clear the frame
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype('fonts/Roboto-Black.ttf', 24)
+    font = ImageFont.truetype('Nestor/fonts/Roboto-Black.ttf', 24)
     draw.rectangle((0, 6, 640, 30), fill=0)
     draw.text((200, 10), 'e-Paper demo', font=font, fill=255)
     draw.rectangle((200, 80, 600, 280), fill=0)
@@ -55,7 +55,7 @@ def main():
     epd.display_frame(epd.get_frame_buffer(image))
 
     print("IMAGE")
-    image = Image.open('images/monocolor.bmp')
+    image = Image.open('Nestor/images/monocolor.bmp')
     epd.display_frame(epd.get_frame_buffer(image))
 
 

@@ -3,6 +3,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 set -e
 
 if [ ! -d ${DIR}/venv ]; then
-    ./setup.sh
+    setup.sh
 fi
-${DIR}/venv/bin/python3 main.py
+${DIR}/venv/bin/python3 ${DIR}/Nestor/main.py
