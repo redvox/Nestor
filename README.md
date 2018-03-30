@@ -8,7 +8,7 @@ Dashboard with Rasberry Pi and ePaper display
 - [Waveshare Wiki](https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT?Amazon)
 
 # Setup
-## Setup OS
+## Install OS
 Download [Raspbian Stretch Lite](https://www.raspberrypi.org/downloads/raspbian/).
 
 Use [Etcher](https://etcher.io/) to write the image to your SD card.
@@ -20,40 +20,64 @@ You can hook up a display and keyboard/mouse to enable ssh via the grapical user
 
 If you create a file named `ssh` on the boot partition, ssh will be enabled.
 
-## Find your Raspberrys IP
-Plug in your Raspberry. If you have a screen connected, tteh ip adress will be prompted. Should you have trouble find it, you can use `nmap` to scan your local network.
+## Find your raspberry's IP
+Plug in your Raspberry. If you have a screen connected, the ip address will be prompted. 
+
+Should you have trouble find it or you do not have a screen attached, you can use `nmap` to scan your local network.
 
 ```bash
-sudo apt-get install nmap
+sudo apt install -y nmap
 sudo nmap -sP 192.168.178.1/24
 ```
 
-## Connect to your rasbperry
+## Connect to your raspberry
 After you got your ip, its time to connect to your raspberry.
 
 ```bash
-ssh pi@<ip-adress>
+ssh pi@192.168.178.5
 ```
 
-After the inital connectivity is assured, change the default password with `sudo passwd pi` on your pi.
+After the initial connectivity is assured, change the default password with `sudo passwd pi` on your pi.
 
 After than use `ssh-copy-id` to make your raspberry accessible via ssh-key.
 
 ```bash
-ssh-copy-id -i ~/.ssh/id_rsa pi@<ip-adress>
+ssh-copy-id -i ~/.ssh/id_rsa pi@192.168.178.5
 ```
 
 This way you do not have to type your password with every access, once your key is unlocked.
 
-## [optional] remove graphical user interface
+## [optional] Remove graphical user interface
 If you do not need a desktop environment, you can remove it.
 
 ```bash
-sudo apt-get -y remove cups*
-sudo apt-get -y remove gnome*
-sudo apt-get -y remove x11-common*
-sudo apt-get -y autoremove
+sudo apt-get remove cups*
+sudo apt-get remove gnome*
+sudo apt-get remove x11-common*
+sudo apt-get autoremove
 ```
 
-## Install libraries
-tbd
+## Install python
+Install python 3 on your raspberry via:
+```bash
+sudo apt install -y python3
+sudo apt install -y python3-dev
+sudo apt install -y python3-pip
+# PILLOW DEPENDENCIES
+sudo apt install -y libopenjp2-7-dev
+sudo apt install -y libtiff4
+sudo apt install -y libtiff5
+```
+
+## Third party libraries
+On the Waveshare Wiki there is a section about libraries you need to install.
+I obtained them with the [Example Code](https://www.waveshare.com/wiki/File:7.5inch-e-paper-hat-code.7z), but ended up not needing them. 
+
+If the project does not work for you, you may want to look at Waveshares [Guide to install libraries](https://www.waveshare.com/wiki/Pioneer600#Libraries_Installation_for_RPi).
+
+## Enable SPI
+To allow your adapter to communicate with your display, you have to enable SPI. 
+```bash
+sudo raspi-config
+```
+Go to *Interface Options*, then *SPI*, then *enable*

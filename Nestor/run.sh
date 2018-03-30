@@ -2,5 +2,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 set -e
 
-TARGET_IP=192.168.178.42
-scp -pr ./Nestor pi@${TARGET_IP}:/home/pi/
+if [ ! -d ${DIR}/venv ]; then
+    ./setup.sh
+fi
+${DIR}/venv/bin/python3 main.py
