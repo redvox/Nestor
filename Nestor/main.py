@@ -1,62 +1,26 @@
-##
-#  @filename   :   main.cpp
-#  @brief      :   7.5inch e-paper display demo
-#  @author     :   Yehui from Waveshare
-#
-#  Copyright (C) Waveshare     July 28 2017
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documnetation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to  whom the Software is
-# furished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS OR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
-##
+import yaml
+import weather
+import display
 
 
-from epd import epd7in5
-from PIL import Image, ImageDraw, ImageFont
-
-EPD_WIDTH = 640
-EPD_HEIGHT = 384
+def read_config_file():
+    try:
+        with open('./config/config.yaml') as config_file:
+            return yaml.load(config_file)
+    except KeyError as e:
+        raise e
 
 
 def main():
-    print("START")
-    epd = epd7in5.EPD()
-    print("START 2")
-    epd.init()
-    print("INIT")
-
-    print("DRAW")
-    # For simplicity, the arguments are explicit numerical coordinates
-    image = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 1)  # 1: clear the frame
-    draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype('Nestor/fonts/Roboto-Black.ttf', 24)
-    draw.rectangle((0, 6, 640, 30), fill=0)
-    draw.text((200, 10), 'e-Paper demo', font=font, fill=255)
-    draw.rectangle((200, 80, 600, 280), fill=0)
-    draw.arc((240, 120, 580, 220), 0, 360, fill=255)
-    draw.rectangle((0, 80, 160, 280), fill=255)
-    draw.arc((40, 80, 180, 220), 0, 360, fill=0)
-
-    print("DISPLAY")
-    epd.display_frame(epd.get_frame_buffer(image))
-
-    print("IMAGE")
-    image = Image.open('Nestor/images/monocolor.bmp')
-    epd.display_frame(epd.get_frame_buffer(image))
+    config = read_config_file()
+    w = weather.get_weather(config['weather']['api_key'], config['weather']['zmw'])
+    # print(w)
+    # w = {'temp': '4.8', 'feels_like': '5', 'icon': 'mostlycloudy', 'weather_icon': '\uf002',
+    #      'today': {'high': '3', 'low': '-2', 'icon': 'partlycloudy', 'weather_icon': '\uf002',
+    #                'conditions': 'Partly Cloudy'},
+    #      'tomorrow': {'high': '8', 'low': '4', 'icon': 'mostlycloudy', 'weather_icon': '\uf031',
+    #                   'conditions': 'Mostly Cloudy'}}
+    display.display(w)
 
 
 if __name__ == '__main__':
