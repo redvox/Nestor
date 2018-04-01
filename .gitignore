@@ -2,3 +2,5 @@
 *.pyc
 venv
 config/config.yaml
+client_id.json
+google_credentials.json

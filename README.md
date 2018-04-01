@@ -90,3 +90,17 @@ To allow your adapter to communicate with your display, you have to enable SPI.
 sudo raspi-config
 ```
 Go to *Interface Options*, then *SPI*, then *enable*
+
+# Setup Google Calender
+## Register Application and activate API
+Go and look at Googles [Quickstart Tutorial](https://developers.google.com/calendar/quickstart/python)
+
+Make sure to register your application and download *client_id.json* and put it under *config/* directory of this project.
+
+## Get Credentials
+To get credentials from google, run the provided script. Make sure you have a browser open with the google account you want to access.
+```bash
+./get_google_credentials.sh
+```
+The credentials file will be saved under *config/google_credentials.json*
+
