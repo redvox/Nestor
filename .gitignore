@@ -1,6 +1,7 @@
 .idea
 *.pyc
 venv
-config/config.json
+config/weather_config.json
+config/calendar_config.json
 client_id.json
 google_credentials.json
