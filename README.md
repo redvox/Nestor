@@ -104,3 +104,9 @@ To get credentials from google, run the provided script. Make sure you have a br
 ```
 The credentials file will be saved under *config/google_credentials.json*
 
+# Setup Wunderground Weather
+Go to [Wunderground Api Page](https://www.wunderground.com/weather/api), register and account and "purchase" a Developer Api Key for 0$.
+
+You can see your api key under *Key Settings* and then *Key ID*.
+
+Add your *api key* and *zmw* to *config/config.json*.  

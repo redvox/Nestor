@@ -1,6 +1,6 @@
 .idea
 *.pyc
 venv
-config/config.yaml
+config/config.json
 client_id.json
 google_credentials.json
