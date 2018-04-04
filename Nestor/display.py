@@ -58,14 +58,14 @@ def display(weather, calendar):
     draw.text((40, 0), today_string, font=font_black, fill=0)
 
     # WEATHER TODAY
-    draw.text((120, 0), weather_today['weather_icon'], font=font_weathericons, fill=0)
+    draw.text((180, 0), weather_today['weather_icon'], font=font_weathericons, fill=0)
     today_string = weather_today['high'] + " / " + weather_today['low']
-    draw.text((160, 0), today_string, font=font_black, fill=0)
+    draw.text((220, 0), today_string, font=font_black, fill=0)
 
     # WEATHER TOMORROW
-    draw.text((230, 0), weather_tomorrow['weather_icon'], font=font_weathericons, fill=0)
+    draw.text((320, 0), weather_tomorrow['weather_icon'], font=font_weathericons, fill=0)
     tomorrow_string = weather_tomorrow['high'] + " / " + weather_tomorrow['low']
-    draw.text((270, 0), tomorrow_string, font=font_black, fill=0)
+    draw.text((360, 0), tomorrow_string, font=font_black, fill=0)
 
     # CALENDAR
     font_thahoma = ImageFont.truetype('Nestor/fonts/tahoma.ttf', 12)
