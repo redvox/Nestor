@@ -1,4 +1,6 @@
 import json
+from datetime import datetime
+
 import weather
 import my_calendar
 from pprint import pprint
@@ -26,8 +28,11 @@ def main():
 
     calendar_config = read_config_file('calendar')
     c = my_calendar.calendar(calendar_config)
-    pprint(c)
-    display.display(w, c)
+
+    date_format = "%d-%m-%Y %H:%M"
+    now = datetime.now().strftime(date_format)
+
+    display.display(now, w, c)
 
 
 if __name__ == '__main__':

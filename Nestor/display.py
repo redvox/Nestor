@@ -23,7 +23,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 ##
-
+from datetime import datetime
 
 from epd import epd7in5
 from PIL import Image, ImageDraw, ImageFont
@@ -33,10 +33,10 @@ EPD_HEIGHT = 384
 
 
 def tuncate(string, max_length):
-    return string[:max_length] + (string[max_length:] and '..')
+    return string[:max_length] + (string[max_length:])
 
 
-def display(weather, calendar):
+def display(now, weather, calendar):
     epd = epd7in5.EPD()
     epd.init()
 
@@ -47,10 +47,17 @@ def display(weather, calendar):
     # fonts
     font_weathericons = ImageFont.truetype('Nestor/fonts/weathericons-regular-webfont.ttf', 25)
     font_black = ImageFont.truetype('Nestor/fonts/Roboto-Black.ttf', 24)
+    font_thahoma = ImageFont.truetype('Nestor/fonts/tahoma.ttf', 12)
+    font_bold = ImageFont.truetype('Nestor/fonts/Roboto-Bold.ttf', 14)
+    font_light = ImageFont.truetype('Nestor/fonts/Roboto-Light.ttf', 14)
 
     weather_now = weather
     weather_today = weather['today']
     weather_tomorrow = weather['tomorrow']
+
+    # UPDATE DATE
+    draw.text((525, 0), 'Last Refesh', font=font_bold, fill=0)
+    draw.text((525, 20), now, font=font_bold, fill=0)
 
     # WEATHER NOW
     draw.text((0, 0), weather_now['weather_icon'], font=font_weathericons, fill=0)
@@ -68,26 +75,27 @@ def display(weather, calendar):
     draw.text((360, 0), tomorrow_string, font=font_black, fill=0)
 
     # CALENDAR
-    font_thahoma = ImageFont.truetype('Nestor/fonts/tahoma.ttf', 12)
-    font_bold = ImageFont.truetype('Nestor/fonts/Roboto-Bold.ttf', 12)
-    font_light = ImageFont.truetype('Nestor/fonts/Roboto-Light.ttf', 12)
-    font_light_italic = ImageFont.truetype('Nestor/fonts/Roboto-LightItalic.ttf', 12)
-    x = 0
-    for name, events in calendar.items():
-        y = 50
-        text_size = 20
 
-        draw.text((x, y), name, font=font_bold, fill=0)
-        y += text_size
-        weekday = ""
-        for event in events:
-            if weekday != event['weekday']:
-                draw.text((x, y), event['weekday'], font=font_light_italic, fill=0)
-                y += text_size
-            draw.text((x + 5, y), tuncate(event['summary'], 22), font=font_light, fill=0)
-            draw.text((x + 5, y + text_size), event['start_hour'], font=font_light_italic, fill=0)
-            y += text_size * 2
-        x += 150
+    x = -150
+    y = 50
+
+    weekday = ""
+    for event in calendar:
+        text_size_px = 20
+
+        if weekday != event['weekday']:
+            weekday = event['weekday']
+            y = 50
+            x += 150
+            draw.text((x, y), event['weekday'], font=font_bold, fill=0)
+
+        y += text_size_px
+        draw.text((x, y), '• ' + event['start_hour'] + '  (' + event['source'] + ')',
+                  font=font_bold,
+                  fill=0)
+
+        y += text_size_px
+        draw.text((x, y), tuncate(event['summary'], 22), font=font_light, fill=0)
 
     epd.display_frame(epd.get_frame_buffer(image))
 
