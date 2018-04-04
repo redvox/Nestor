@@ -91,6 +91,19 @@ sudo raspi-config
 ```
 Go to *Interface Options*, then *SPI*, then *enable*
 
+## [optional] Enable WiFi
+If you do not not want to have a cable connected all the time, you can enable wifi. 
+
+```bash
+sudo raspi-config
+```
+Go to *Network Options*, then *Wi-fi*, then enter your SSId and password.
+
+To check your wifi use: 
+```bash
+iwconfig
+```
+
 # Setup Google Calender
 ## Register Application and activate API
 Go and look at Googles [Quickstart Tutorial](https://developers.google.com/calendar/quickstart/python)
