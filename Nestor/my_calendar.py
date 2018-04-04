@@ -58,17 +58,22 @@ def get_weekday(day):
     if day == 6: return "Sonntag"
 
 
-def uniform_event(event):
+def uniform_event(source, event):
     start = parser.parse(event['start'].get('dateTime', event['start'].get('date')))
     end = parser.parse(event['start'].get('dateTime', event['start'].get('date')))
+    sort_format = "%Y-%m-%d %H:%M:%S"
     date_format = "%d-%m-%Y %H:%M:%S"
     hour_format = "%H:%M"
+
     return {
         'summary': event['summary'],
+        'sort_id': start.strftime(sort_format),
         'start': start.strftime(date_format),
         'end': end.strftime(date_format),
         'weekday': get_weekday(start.weekday()),
-        'start_hour': start.strftime(hour_format)
+        'start_hour': start.strftime(hour_format),
+        'end_hour': end.strftime(hour_format),
+        'source': source
     }
 
 
@@ -82,14 +87,15 @@ def calendar(calendar_config):
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
 
-    full_calender = dict()
+    event_list = list()
 
     for name, calendar_id in calendar_config.items():
-        full_calender[name] = list()
         events = get_events(service, calendar_id)
         for event in events:
-            full_calender[name].append(uniform_event(event))
-    return full_calender
+            event_list.append(uniform_event(name, event))
+
+    sorted_events = sorted(event_list, key=lambda k: k['sort_id'])
+    return sorted_events
 
 
 if __name__ == '__main__':
