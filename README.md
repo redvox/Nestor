@@ -16,7 +16,7 @@ The *Interface Config* must be set to *0*.
 
 Waveshare has a [Video](https://www.youtube.com/watch?v=f4yoYbSWctI) explaining the different settings. 
 
-# Setup
+# Raspberry
 ## Install OS
 Download [Raspbian Stretch Lite](https://www.raspberrypi.org/downloads/raspbian/).
 
@@ -104,7 +104,7 @@ To check your wifi use:
 iwconfig
 ```
 
-# Setup Google Calender
+# Google Calender
 ## Register Application and activate API
 Go and look at Googles [Quickstart Tutorial](https://developers.google.com/calendar/quickstart/python)
 
@@ -117,9 +117,32 @@ To get credentials from google, run the provided script. Make sure you have a br
 ```
 The credentials file will be saved under *config/google_credentials.json*
 
-# Setup Wunderground Weather
+# Wunderground Weather
 Go to [Wunderground Api Page](https://www.wunderground.com/weather/api), register and account and "purchase" a Developer Api Key for 0$.
 
 You can see your api key under *Key Settings* and then *Key ID*.
 
 Add your *api key* and *zmw* to *config/config.json*.  
+
+# Nestor
+## Copy Nestor
+To copy the script files open *run-remote.sh* and set the *TARGET_IP* variable to the ip of your raspberry.
+
+Then run:
+```bash
+./run-remote.sh -as
+```
+This will copy all necessary files to your raspberry, run setup.sh and execute the script.
+
+## Run script every hour
+To run your script every hour and refresh your display run:
+```bash
+sudo crontab -e
+```
+Select the editor of your choice and add the following line at the end of the file:
+```bash
+0 * * * * /home/pi/run.sh
+```
+
+This will run Nestor every hour.
+
