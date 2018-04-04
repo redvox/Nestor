@@ -61,13 +61,14 @@ def get_weekday(day):
 def uniform_event(event):
     start = parser.parse(event['start'].get('dateTime', event['start'].get('date')))
     end = parser.parse(event['start'].get('dateTime', event['start'].get('date')))
-    # print(dt.weekday())
     date_format = "%d-%m-%Y %H:%M:%S"
+    hour_format = "%H:%M"
     return {
         'summary': event['summary'],
         'start': start.strftime(date_format),
         'end': end.strftime(date_format),
-        'weekday': get_weekday(start.weekday())
+        'weekday': get_weekday(start.weekday()),
+        'start_hour': start.strftime(hour_format)
     }
 
 
@@ -88,7 +89,7 @@ def calendar(calendar_config):
         events = get_events(service, calendar_id)
         for event in events:
             full_calender[name].append(uniform_event(event))
-    pprint(full_calender)
+    return full_calender
 
 
 if __name__ == '__main__':

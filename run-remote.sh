@@ -2,7 +2,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 set -e
 
-TARGET_IP=192.168.178.42
+TARGET_IP=192.168.178.64
 
 MODE_ALL="false"
 MODE_SETUP="false"
