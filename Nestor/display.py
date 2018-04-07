@@ -36,45 +36,9 @@ def tuncate(string, max_length):
     return string[:max_length] + (string[max_length:])
 
 
-def display(now, weather, calendar):
-    epd = epd7in5.EPD()
-    epd.init()
-
-    # clear
-    image = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 1)
-    draw = ImageDraw.Draw(image)
-
-    # fonts
-    font_weathericons = ImageFont.truetype('Nestor/fonts/weathericons-regular-webfont.ttf', 25)
-    font_black = ImageFont.truetype('Nestor/fonts/Roboto-Black.ttf', 24)
-    font_thahoma = ImageFont.truetype('Nestor/fonts/tahoma.ttf', 12)
+def display_calendar(draw, calendar):
     font_bold = ImageFont.truetype('Nestor/fonts/Roboto-Bold.ttf', 14)
     font_light = ImageFont.truetype('Nestor/fonts/Roboto-Light.ttf', 14)
-
-    weather_now = weather
-    weather_today = weather['today']
-    weather_tomorrow = weather['tomorrow']
-
-    # UPDATE DATE
-    draw.text((525, 0), 'Last Refesh', font=font_bold, fill=0)
-    draw.text((525, 20), now, font=font_bold, fill=0)
-
-    # WEATHER NOW
-    draw.text((0, 0), weather_now['weather_icon'], font=font_weathericons, fill=0)
-    today_string = weather_now['temp'] + " (" + weather_now['feels_like'] + ")"
-    draw.text((40, 0), today_string, font=font_black, fill=0)
-
-    # WEATHER TODAY
-    draw.text((180, 0), weather_today['weather_icon'], font=font_weathericons, fill=0)
-    today_string = weather_today['high'] + " / " + weather_today['low']
-    draw.text((220, 0), today_string, font=font_black, fill=0)
-
-    # WEATHER TOMORROW
-    draw.text((320, 0), weather_tomorrow['weather_icon'], font=font_weathericons, fill=0)
-    tomorrow_string = weather_tomorrow['high'] + " / " + weather_tomorrow['low']
-    draw.text((360, 0), tomorrow_string, font=font_black, fill=0)
-
-    # CALENDAR
 
     x = -150
     y = 50
@@ -96,6 +60,46 @@ def display(now, weather, calendar):
 
         y += text_size_px
         draw.text((x, y), tuncate(event['summary'], 22), font=font_light, fill=0)
+
+
+def display_weather(draw, weather):
+    font_weather_icons = ImageFont.truetype('Nestor/fonts/weathericons-regular-webfont.ttf', 25)
+    font_black = ImageFont.truetype('Nestor/fonts/Roboto-Black.ttf', 24)
+
+    weather_now = weather
+    weather_today = weather['today']
+    weather_tomorrow = weather['tomorrow']
+
+    # WEATHER NOW
+    draw.text((0, 0), weather_now['weather_icon'], font=font_weather_icons, fill=0)
+    today_string = weather_now['temp'] + " (" + weather_now['feels_like'] + ")"
+    draw.text((40, 0), today_string, font=font_black, fill=0)
+
+    # WEATHER TODAY
+    draw.text((180, 0), weather_today['weather_icon'], font=font_weather_icons, fill=0)
+    today_string = weather_today['high'] + " / " + weather_today['low']
+    draw.text((220, 0), today_string, font=font_black, fill=0)
+
+    # WEATHER TOMORROW
+    draw.text((320, 0), weather_tomorrow['weather_icon'], font=font_weather_icons, fill=0)
+    tomorrow_string = weather_tomorrow['high'] + " / " + weather_tomorrow['low']
+    draw.text((360, 0), tomorrow_string, font=font_black, fill=0)
+
+
+def display(now, weather, calendar):
+    epd = epd7in5.EPD()
+    epd.init()
+
+    # clear
+    image = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 1)
+    draw = ImageDraw.Draw(image)
+
+    # UPDATE DATE
+    draw.text((525, 0), 'Last Refesh', font=font_bold, fill=0)
+    draw.text((525, 20), now, font=font_bold, fill=0)
+
+    display_weather(draw, weather)
+    display_calendar(draw, calendar)
 
     epd.display_frame(epd.get_frame_buffer(image))
 
