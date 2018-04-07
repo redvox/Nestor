@@ -18,16 +18,12 @@ def get_weather(api_key, zmw):
 
     current_weather_response = requests.get(current_url)
     current_weather = json.loads(current_weather_response.text).get('current_observation')
-    pprint("current_weather")
-    pprint(current_weather)
 
     forecast_weather_response = requests.get(forecast_url)
     forecast_weather = json.loads(forecast_weather_response.text) \
         .get('forecast') \
         .get('simpleforecast') \
         .get('forecastday')
-    pprint("forecast_weather")
-    pprint(forecast_weather)
 
     weather = {
         'temp': str(current_weather['temp_c']),
@@ -49,7 +45,6 @@ def get_weather(api_key, zmw):
             'conditions': forecast_weather[1]['conditions']
         }
     }
-    # pprint(weather)
     return weather
 
 
