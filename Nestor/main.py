@@ -29,8 +29,9 @@ def main():
     date_format = "%d-%m-%Y %H:%M"
     now = datetime.now().strftime(date_format)
 
-    hvv.get_departures()
-    display.display(now, w, c)
+    departures = hvv.get_departures()
+
+    display.display(now, w, c, departures)
 
 
 if __name__ == '__main__':

@@ -36,6 +36,18 @@ def tuncate(string, max_length):
     return string[:max_length] + (string[max_length:])
 
 
+def display_departures(draw, departures):
+    font_bold = ImageFont.truetype('Nestor/fonts/Roboto-Bold.ttf', 14)
+
+    x = 0
+    y = 350
+
+    departures_string = []
+    for departure in departures:
+        departures_string.append(departure['time'] + ' ' + departure['delay'] + ' <' + departure['line'] + '>')
+    draw.text((x, y), '   •   '.join(departures_string), font=font_bold, fill=0)
+
+
 def display_calendar(draw, calendar):
     font_bold = ImageFont.truetype('Nestor/fonts/Roboto-Bold.ttf', 14)
     font_light = ImageFont.truetype('Nestor/fonts/Roboto-Light.ttf', 14)
@@ -86,7 +98,7 @@ def display_weather(draw, weather):
     draw.text((360, 0), tomorrow_string, font=font_black, fill=0)
 
 
-def display(now, weather, calendar):
+def display(now, weather, calendar, departures):
     epd = epd7in5.EPD()
     epd.init()
 
@@ -94,12 +106,20 @@ def display(now, weather, calendar):
     image = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 1)
     draw = ImageDraw.Draw(image)
 
+    # fonts
+    font_weathericons = ImageFont.truetype('Nestor/fonts/weathericons-regular-webfont.ttf', 25)
+    font_black = ImageFont.truetype('Nestor/fonts/Roboto-Black.ttf', 24)
+    font_thahoma = ImageFont.truetype('Nestor/fonts/tahoma.ttf', 12)
+    font_bold = ImageFont.truetype('Nestor/fonts/Roboto-Bold.ttf', 14)
+    font_light = ImageFont.truetype('Nestor/fonts/Roboto-Light.ttf', 14)
+
     # UPDATE DATE
     draw.text((525, 0), 'Last Refesh', font=font_bold, fill=0)
     draw.text((525, 20), now, font=font_bold, fill=0)
 
     display_weather(draw, weather)
     display_calendar(draw, calendar)
+    display_departures(draw, departures)
 
     epd.display_frame(epd.get_frame_buffer(image))
 
