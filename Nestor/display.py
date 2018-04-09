@@ -52,7 +52,7 @@ def display_calendar(draw, calendar):
     font_bold = ImageFont.truetype('Nestor/fonts/Roboto-Bold.ttf', 14)
     font_light = ImageFont.truetype('Nestor/fonts/Roboto-Light.ttf', 14)
 
-    x = -150
+    x = -132
     y = 50
 
     weekday = ""
@@ -62,16 +62,17 @@ def display_calendar(draw, calendar):
         if weekday != event['weekday']:
             weekday = event['weekday']
             y = 50
-            x += 150
+            x += 132
             draw.text((x, y), event['weekday'], font=font_bold, fill=0)
 
         y += text_size_px
-        draw.text((x, y), '• ' + event['start_hour'] + '  (' + event['source'] + ')',
+        event_test = '• {start_hour}  ({source})'
+        draw.text((x, y), event_test.format(**event),
                   font=font_bold,
                   fill=0)
 
         y += text_size_px
-        draw.text((x, y), tuncate(event['summary'], 22), font=font_light, fill=0)
+        draw.text((x, y), truncate(event['summary'], 18), font=font_light, fill=0)
 
 
 def display_weather(draw, weather):
