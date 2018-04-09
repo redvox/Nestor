@@ -66,7 +66,11 @@ def display_calendar(draw, calendar):
             draw.text((x, y), event['weekday'], font=font_bold, fill=0)
 
         y += text_size_px
-        event_test = '• {start_hour}  ({source})'
+        if event['start_hour'] != '00:00':
+            event_test = '• {start_hour}  ({source})'
+        else:
+            event_test = '• ({source})'
+
         draw.text((x, y), event_test.format(**event),
                   font=font_bold,
                   fill=0)
