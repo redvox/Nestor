@@ -32,8 +32,8 @@ EPD_WIDTH = 640
 EPD_HEIGHT = 384
 
 
-def tuncate(string, max_length):
-    return string[:max_length] + (string[max_length:])
+def truncate(string, max_length):
+    return string[:max_length] + (string[max_length:] and '..')
 
 
 def display_departures(draw, departures):
