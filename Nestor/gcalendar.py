@@ -7,7 +7,6 @@ from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
-from pprint import pprint
 from dateutil import parser
 
 import datetime
@@ -77,7 +76,7 @@ def uniform_event(source, event):
     }
 
 
-def calendar(calendar_config):
+def calendar(config):
     """Shows basic usage of the Google Calendar API.
 
     Creates a Google Calendar API service object and outputs a list of the next
@@ -89,7 +88,7 @@ def calendar(calendar_config):
 
     event_list = list()
 
-    for name, calendar_id in calendar_config.items():
+    for name, calendar_id in config.items():
         events = get_events(service, calendar_id)
         for event in events:
             event_list.append(uniform_event(name, event))

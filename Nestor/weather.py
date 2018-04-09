@@ -11,7 +11,10 @@ class Weather:
         pass
 
 
-def get_weather(api_key, zmw):
+def get_weather(config):
+    api_key = config['api_key']
+    zmw = config['zmw']
+
     base_url = 'http://api.wunderground.com/api/{api_key}/{method}/q/zmw:{zmw}.json'
     current_url = base_url.format(api_key=api_key, method='conditions', zmw=zmw)
     forecast_url = base_url.format(api_key=api_key, method='forecast', zmw=zmw)

@@ -1,0 +1,13 @@
+{
+  "weather": {
+    "api_key": "1234566",
+    "zmw": "00000.00.0000"
+  },
+  "calendar": {
+    "Primary": "primary"
+  },
+  "hvv": {
+    "direction": "Hauptbahnhof",
+    "api_parameter": "000000-0000-0000-0000-000000"
+  }
+}
