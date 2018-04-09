@@ -104,6 +104,19 @@ To check your wifi use:
 iwconfig
 ```
 
+## [optional] Setting correct timezone
+If you clean-install your raspberry it usually has   
+
+```bash
+sudo raspi-config
+```
+Go to *Localisation Options*, then *Change Timezone* and then choose your timezone.
+
+To check your wifi use: 
+```bash
+iwconfig
+```
+
 # Google Calender
 ## Register Application and activate API
 Go and look at Googles [Quickstart Tutorial](https://developers.google.com/calendar/quickstart/python)
@@ -137,11 +150,12 @@ This will copy all necessary files to your raspberry, run setup.sh and execute t
 ## Run script every hour
 To run your script every hour and refresh your display run:
 ```bash
-sudo crontab -e
+crontab -e
 ```
+
 Select the editor of your choice and add the following line at the end of the file:
 ```bash
-0 * * * * /home/pi/run.sh
+0 * * * * /home/pi/run.sh >> script.log
 ```
 
 This will run Nestor every hour.
