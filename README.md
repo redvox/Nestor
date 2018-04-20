@@ -1,5 +1,7 @@
 # Nestor
-Dashboard with Rasberry Pi and ePaper display
+Personal Dashboard with Rasberry Pi and ePaper display.
+
+It displays the local weather, your google calender events of the next few days and a list of bus depatures of your favorite bus stop. 
 
 # Hardware
 - [Raspberry Pi 3 Model B](https://www.amazon.de/gp/product/B01CD5VC92/ref=oh_aui_detailpage_o06_s00?ie=UTF8&psc=1)
@@ -78,7 +80,7 @@ sudo apt install -y libtiff4
 sudo apt install -y libtiff5
 ```
 
-## Third party libraries
+## [optional] third party libraries
 On the Waveshare Wiki there is a section about libraries you need to install.
 I obtained them with the [Example Code](https://www.waveshare.com/wiki/File:7.5inch-e-paper-hat-code.7z), but ended up not needing them. 
 
@@ -105,7 +107,7 @@ iwconfig
 ```
 
 ## [optional] Setting correct timezone
-If you clean-install your raspberry it usually has   
+If you clean-install your raspberry it usually has utc as standard timezone. 
 
 ```bash
 sudo raspi-config
@@ -125,12 +127,43 @@ To get credentials from google, run the provided script. Make sure you have a br
 ```
 The credentials file will be saved under **config/google_credentials.json**
 
+## Configuration
+The calendar part of the configuration is a map, containing the gmail calendars you want to display.
+
+```json
+{
+    "calendar": {
+        "Primary": "primary",
+        "Husband": "myHusband@gmail.com",
+        "Daughter": "lkbnaiufthsaeudihgshgsh@group.calendar.google.com"
+    }
+}
+```
+
+Open your calendar settings and look for the calendar-id. 
+
 # Wunderground Weather
 Go to [Wunderground Api Page](https://www.wunderground.com/weather/api), register and account and "purchase" a Developer Api Key for 0$.
 
 You can see your api key under **Key Settings** and then **Key ID**.
 
 Add your **api key** and **zmw** to **config/config.json**.  
+
+## Configuration
+The weather configuration constits of the api_key and the zmw, which is a wundergrund location id of the station you want to use.
+
+```json
+  {
+      "weather": {
+            "api_key": "1234566",
+            "zmw": "00000.00.0000"
+      }
+  }
+```
+
+# HVV
+Go to (abfahrten.hvv.de)[http://abfahrten.hvv.de/], there you can insert the bus stop 
+
 
 # Nestor
 ## Copy Nestor files
@@ -140,7 +173,7 @@ Then run:
 ```bash
 ./run-remote.sh -as
 ```
-This will copy all necessary files to your raspberry, run setup.sh and execute the script.
+This will copy all necessary files to your raspberry, run setup.sh and execute Nestor on your raspberry.
 
 ## Run script every hour
 To run your script every hour and refresh your display run:
@@ -154,3 +187,28 @@ Select the editor of your choice and add the following line at the end of the fi
 ```
 
 This will run Nestor every hour.
+
+# Development
+To setup the project, please run the following:
+```bash
+./setup.sh
+```
+This will create a virtual environment with `python3` and install all necessary libraries. 
+
+To run your code use `run.sh` or `run-remote.sh` to run it on your raspberry.
+
+Make sure you set the `TARGET_IP` in the `run-remote.sh` script.
+
+# Contribute
+Nestor is a hobby project and welcomes code improvements, bug fixes, suggestions and feature
+requests. 
+
+For those of your interested, providing documentation to other parties is equally welcome.
+
+If you decide to contribute code please follow naming conventions and style guides the code currently complies too.
+
+In doubt: be safe and follow (PEP-8)[http://www.python.org/dev/peps/pep-0008].
+
+# License
+
+Distributed under the Apache License 2.0
