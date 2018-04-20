@@ -112,11 +112,7 @@ def render(now, weather, calendar, departures):
     draw = ImageDraw.Draw(image)
 
     # fonts
-    font_weathericons = ImageFont.truetype('Nestor/fonts/weathericons-regular-webfont.ttf', 25)
-    font_black = ImageFont.truetype('Nestor/fonts/Roboto-Black.ttf', 24)
-    font_thahoma = ImageFont.truetype('Nestor/fonts/tahoma.ttf', 12)
     font_bold = ImageFont.truetype('Nestor/fonts/Roboto-Bold.ttf', 14)
-    font_light = ImageFont.truetype('Nestor/fonts/Roboto-Light.ttf', 14)
 
     # UPDATE DATE
     draw.text((525, 0), 'Last Refesh', font=font_bold, fill=0)
