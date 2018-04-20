@@ -1,3 +1,4 @@
+# coding=utf-8
 ##
 #  @filename   :   main.cpp
 #  @brief      :   7.5inch e-paper display demo
@@ -23,9 +24,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 ##
-from datetime import datetime
+from os import environ
 
-from epd import epd7in5
+if not environ.get("DRY_RUN"):
+    from epd import epd7in5
+
 from PIL import Image, ImageDraw, ImageFont
 
 EPD_WIDTH = 640
@@ -103,10 +106,7 @@ def display_weather(draw, weather):
     draw.text((360, 0), tomorrow_string, font=font_black, fill=0)
 
 
-def display(now, weather, calendar, departures):
-    epd = epd7in5.EPD()
-    epd.init()
-
+def render(now, weather, calendar, departures):
     # clear
     image = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 1)
     draw = ImageDraw.Draw(image)
@@ -126,22 +126,13 @@ def display(now, weather, calendar, departures):
     display_calendar(draw, calendar)
     display_departures(draw, departures)
 
-    epd.display_frame(epd.get_frame_buffer(image))
+    if not environ.get("DRY_RUN"):
+        push_to_display(image)
+    else:
+        image.save("display.png", "PNG")
 
-    # print("DRAW")
-    # # For simplicity, the arguments are explicit numerical coordinates
-    # image = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 1)  # 1: clear the frame
-    # draw = ImageDraw.Draw(image)
-    # font = ImageFont.truetype('Nestor/fonts/Roboto-Black.ttf', 24)
-    # draw.rectangle((0, 6, 640, 30), fill=0)
-    # draw.text((200, 10), 'e-Paper demo', font=font, fill=255)
-    # draw.rectangle((200, 80, 600, 280), fill=0)
-    # draw.arc((240, 120, 580, 220), 0, 360, fill=255)
-    # draw.rectangle((0, 80, 160, 280), fill=255)
-    # draw.arc((40, 80, 180, 220), 0, 360, fill=0)
-    # print("")
-    # epd.display_frame(epd.get_frame_buffer(image))
-    #
-    # print("IMAGE")
-    # image = Image.open('Nestor/images/monocolor.bmp')
-    # epd.display_frame(epd.get_frame_buffer(image))
+
+def push_to_display(image):
+    epd = epd7in5.EPD()
+    epd.init()
+    epd.display_frame(epd.get_frame_buffer(image))

@@ -1,8 +1,8 @@
 import json
 from datetime import datetime
 
-import weather
-import my_calendar
+import wunderground
+import gcalendar
 import hvv
 
 import display
@@ -18,14 +18,14 @@ def read_config_file():
 
 def main():
     config = read_config_file()
-    weather_data = weather.get_weather(config['weather'])
-    calendar_events = my_calendar.calendar(config['calendar'])
+    weather = wunderground.get_weather(config['weather'])
+    events = gcalendar.calendar(config['calendar'])
     departures = hvv.get_departures(config['hvv'])
 
     date_format = "%d-%m-%Y %H:%M"
     now = datetime.now().strftime(date_format)
 
-    display.display(now, weather_data, calendar_events, departures)
+    display.render(now, weather, events, departures)
 
 
 if __name__ == '__main__':

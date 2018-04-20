@@ -10,9 +10,9 @@ Dashboard with Rasberry Pi and ePaper display
 ## e-Paper Driver HAT Settings
 If you using the Driver HAT, like i do. Make sure the switches on the Hat are set correctly.
 
-*Display Config* has to be set accordingly to the display you are using. In case of the 7.5 inch it would be *B*.
+**Display Config** has to be set accordingly to the display you are using. In case of the 7.5 inch it would be **B**.
 
-The *Interface Config* must be set to *0*.
+The **Interface Config** must be set to **0**.
 
 Waveshare has a [Video](https://www.youtube.com/watch?v=f4yoYbSWctI) explaining the different settings. 
 
@@ -89,7 +89,7 @@ To allow your adapter to communicate with your display, you have to enable SPI.
 ```bash
 sudo raspi-config
 ```
-Go to *Interface Options*, then *SPI*, then *enable*
+Go to **Interface Options**, then **SPI**, then **enable**
 
 ## [optional] Enable WiFi
 If you do not not want to have a cable connected all the time, you can enable wifi. 
@@ -97,7 +97,7 @@ If you do not not want to have a cable connected all the time, you can enable wi
 ```bash
 sudo raspi-config
 ```
-Go to *Network Options*, then *Wi-fi*, then enter your SSId and password.
+Go to **Network Options**, then **Wi-fi**, then enter your SSId and password.
 
 To check your wifi use: 
 ```bash
@@ -110,36 +110,31 @@ If you clean-install your raspberry it usually has
 ```bash
 sudo raspi-config
 ```
-Go to *Localisation Options*, then *Change Timezone* and then choose your timezone.
-
-To check your wifi use: 
-```bash
-iwconfig
-```
+Go to **Localisation Options**, then **Change Timezone** and then choose your timezone.
 
 # Google Calender
 ## Register Application and activate API
 Go and look at Googles [Quickstart Tutorial](https://developers.google.com/calendar/quickstart/python)
 
-Make sure to register your application and download *client_id.json* and put it under *config/* directory of this project.
+Make sure to register your application and download **client_id.json** and put it under **config/** directory of this project.
 
 ## Get Credentials
 To get credentials from google, run the provided script. Make sure you have a browser open with the google account you want to access.
 ```bash
 ./get_google_credentials.sh
 ```
-The credentials file will be saved under *config/google_credentials.json*
+The credentials file will be saved under **config/google_credentials.json**
 
 # Wunderground Weather
 Go to [Wunderground Api Page](https://www.wunderground.com/weather/api), register and account and "purchase" a Developer Api Key for 0$.
 
-You can see your api key under *Key Settings* and then *Key ID*.
+You can see your api key under **Key Settings** and then **Key ID**.
 
-Add your *api key* and *zmw* to *config/config.json*.  
+Add your **api key** and **zmw** to **config/config.json**.  
 
 # Nestor
-## Copy Nestor
-To copy the script files open *run-remote.sh* and set the *TARGET_IP* variable to the ip of your raspberry.
+## Copy Nestor files
+To copy the script files open **run-remote.sh** and set the **TARGET_IP** variable to the ip of your raspberry.
 
 Then run:
 ```bash
@@ -159,4 +154,3 @@ Select the editor of your choice and add the following line at the end of the fi
 ```
 
 This will run Nestor every hour.
-
