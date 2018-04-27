@@ -1,15 +1,13 @@
 # Sample code was taken from https://developers.google.com/calendar/quickstart/python
 
 import httplib2
-import json
+import datetime
 
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
 from dateutil import parser
-
-import datetime
 
 
 def get_events(service, calendar_id):
@@ -76,6 +74,17 @@ def uniform_event(source, event):
     }
 
 
+def filter_ongoing_events(sorted_events):
+    sort_format = "%Y-%m-%d %H:%M:%S"
+    now = datetime.datetime.utcnow().strftime(sort_format)
+
+    filtered_events = []
+    for event in sorted_events:
+        if not event['sort_id'] < now:
+            filtered_events.append(event)
+    return filtered_events
+
+
 def calendar(config):
     """Shows basic usage of the Google Calendar API.
 
@@ -94,7 +103,8 @@ def calendar(config):
             event_list.append(uniform_event(name, event))
 
     sorted_events = sorted(event_list, key=lambda k: k['sort_id'])
-    return sorted_events
+    filtered_events = filter_ongoing_events(sorted_events)
+    return filtered_events
 
 
 if __name__ == '__main__':
