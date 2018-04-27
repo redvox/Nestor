@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+import argparse
 
 import wunderground
 import gcalendar
@@ -16,17 +16,21 @@ def read_config_file():
         raise e
 
 
-def main():
+def main(dry_run):
     config = read_config_file()
-    weather = wunderground.get_weather(config['weather'])
+    # weather = wunderground.get_weather(config['weather'])
     events = gcalendar.calendar(config['calendar'])
     departures = hvv.get_departures(config['hvv'])
 
-    date_format = "%d-%m-%Y %H:%M"
-    now = datetime.now().strftime(date_format)
-
-    display.render(now, weather, events, departures)
+    display.render(weather=None,
+                   calendar=events,
+                   departures=departures,
+                   dry_run=dry_run)
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='Nestor')
+    parser.add_argument('-d', '--dry', action='store_true',
+                        help='Do not use display, save image to file.')
+    args = parser.parse_args()
+    main(args.dry)
