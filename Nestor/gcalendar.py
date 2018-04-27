@@ -1,5 +1,4 @@
 # Sample code was taken from https://developers.google.com/calendar/quickstart/python
-
 import httplib2
 import datetime
 
@@ -57,32 +56,34 @@ def get_weekday(day):
 
 def uniform_event(source, event):
     start = parser.parse(event['start'].get('dateTime', event['start'].get('date')))
-    end = parser.parse(event['start'].get('dateTime', event['start'].get('date')))
+    end = parser.parse(event['end'].get('dateTime', event['end'].get('date')))
     sort_format = "%Y-%m-%d %H:%M:%S"
     date_format = "%d-%m-%Y %H:%M:%S"
     hour_format = "%H:%M"
 
+    now_date = datetime.datetime.utcnow()
+    now = now_date.strftime(sort_format)
+
+    sort_date = start.strftime(sort_format)
+    ongoing = sort_date < now
+
+    if ongoing:
+        ongoing_days_left = (end - now_date).days
+    else:
+        ongoing_days_left = 0
+
     return {
         'summary': event['summary'],
-        'sort_id': start.strftime(sort_format),
+        'sort_date': sort_date,
         'start': start.strftime(date_format),
         'end': end.strftime(date_format),
         'weekday': get_weekday(start.weekday()),
+        'ongoing': ongoing,
+        'ongoing_days_left': ongoing_days_left,
         'start_hour': start.strftime(hour_format),
         'end_hour': end.strftime(hour_format),
         'source': source
     }
-
-
-def filter_ongoing_events(sorted_events):
-    sort_format = "%Y-%m-%d %H:%M:%S"
-    now = datetime.datetime.utcnow().strftime(sort_format)
-
-    filtered_events = []
-    for event in sorted_events:
-        if not event['sort_id'] < now:
-            filtered_events.append(event)
-    return filtered_events
 
 
 def calendar(config):
@@ -102,9 +103,8 @@ def calendar(config):
         for event in events:
             event_list.append(uniform_event(name, event))
 
-    sorted_events = sorted(event_list, key=lambda k: k['sort_id'])
-    filtered_events = filter_ongoing_events(sorted_events)
-    return filtered_events
+    sorted_events = sorted(event_list, key=lambda k: k['sort_date'])
+    return sorted_events
 
 
 if __name__ == '__main__':

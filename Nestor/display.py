@@ -33,6 +33,7 @@ if not environ.get("DRY_RUN"):
 
 EPD_WIDTH = 640
 EPD_HEIGHT = 384
+TEXT_SIZE = 20
 COLOR = 255  # white (255) or black (0)
 
 
@@ -52,35 +53,41 @@ def display_departures(draw, departures):
     draw.text((x, y), '   •   '.join(departures_string), font=font_bold, fill=COLOR)
 
 
-def display_calendar(draw, calendar):
+def display_calendar(draw, event_list):
     font_bold = ImageFont.truetype('Nestor/fonts/Roboto-Bold.ttf', 14)
     font_light = ImageFont.truetype('Nestor/fonts/Roboto-Light.ttf', 14)
 
     x = -132
-    y = 50
+    y = 80
+
+    ongoing_events = []
 
     weekday = ""
-    for event in calendar:
-        text_size_px = 20
+    for event in event_list:
+        if not event['ongoing']:
+            if weekday != event['weekday']:
+                weekday = event['weekday']
+                y = 80
+                x += 132
+                draw.text((x, y), event['weekday'], font=font_bold, fill=COLOR)
 
-        if weekday != event['weekday']:
-            weekday = event['weekday']
-            y = 50
-            x += 132
-            draw.text((x, y), event['weekday'], font=font_bold, fill=COLOR)
+            y += TEXT_SIZE
+            if event['start_hour'] != '00:00':
+                event_test = '• {start_hour}  ({source})'
+            else:
+                event_test = '• ({source})'
 
-        y += text_size_px
-        if event['start_hour'] != '00:00':
-            event_test = '• {start_hour}  ({source})'
+            draw.text((x, y), event_test.format(**event),
+                      font=font_bold,
+                      fill=COLOR)
+
+            y += TEXT_SIZE
+            draw.text((x, y), truncate(event['summary'], 18), font=font_light, fill=COLOR)
         else:
-            event_test = '• ({source})'
+            ongoing_events.append(event)
 
-        draw.text((x, y), event_test.format(**event),
-                  font=font_bold,
-                  fill=COLOR)
-
-        y += text_size_px
-        draw.text((x, y), truncate(event['summary'], 18), font=font_light, fill=COLOR)
+    ongoing_headline = ' '.join(['-> {summary} [{ongoing_days_left}]'.format(**event) for event in ongoing_events])
+    draw.text((0, 50), ongoing_headline, font=font_light, fill=COLOR)
 
 
 def display_weather(draw, weather):
@@ -125,8 +132,7 @@ def render(weather, calendar, departures, dry_run):
     image = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 1)
     draw = ImageDraw.Draw(image)
 
-    if not dry_run:
-        black_screen(draw)
+    black_screen(draw)
     display_update_timestamp(draw)
     # display_weather(draw, weather)
     display_calendar(draw, calendar)
